@@ -1,8 +1,9 @@
-**** Javascript function decorators
+#Javascript function decorators
 
 Function decorators are a powerful tool in Java and Python, allowing you to wrap functions around functions, providing reusable pre and post processing.
 
 For example in Python I can set up a decorator that takes an argument with:
+
 ```python
 def my_function_decorator(decorator_argument):
 	@decorator
@@ -14,7 +15,9 @@ def my_function_decorator(decorator_argument):
 			result = 'tuesday'
 	return wrapper
 ```
+
 And I wrap this around my function like this:
+
 ```python
 @my_function_decorator('no monday')
 @def my_function(*args, **kwargs):
@@ -29,11 +32,12 @@ result = my_function_decorator(my_function(), 'no monday')
 
 I'd have to run this each time and this gets tedious. It'd be nice if I could setup a function that is pre decorated!
 
-***Enter the prototype extensions for javascript's function objects!
+##Enter the prototype extensions for javascript's function objects!
 
 Using this library I could define two functions and then decorate one with the other, or even decorate an anonymous function with a decorator stored in a variable.
 
 Take a look at this:
+
 ```javascript
 function my_decorator(dArgs, arg1)
 {
@@ -54,14 +58,16 @@ var my_function = my_decorator.decorate('no monday',
 
 Easy, now each call to my_function is wrapped in the decorator, and the decorator is still there to be applied to other functions.
 
-***.decorate and .decorateWith
+##.decorate and .decorateWith
 
 So we've looked at an example of how to use .decorate:
+
 ```javascript
 decorator_function.decorate(arguments...., decorated_function)
 ```
 
 .decorateWith is the polar oposite:
+
 ```javascript
 decorated_function.decorateWith(decorator_function, arguments....)
 ```
