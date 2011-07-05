@@ -46,5 +46,3 @@ function two (dArgs, oA1, oA2) {
 var three = one.decorate(two, 'arguments', 'for', 'decorator', 'only');
 
 console.log (three('arguments', 'passed', 'to', 'both'));
-
-console.log
