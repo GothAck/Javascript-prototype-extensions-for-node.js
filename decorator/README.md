@@ -26,6 +26,7 @@ And I wrap this around my function like this:
 ```
 
 This functionality is harder to reproduce as cleanly in javascript, I could execute:
+
 ```javascript
 result = my_function_decorator(my_function(), 'no monday')
 ```
