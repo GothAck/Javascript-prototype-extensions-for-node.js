@@ -1,4 +1,4 @@
-Function.prototype.decorate = function ()
+Function.prototype.decorateWith = function ()
 {
   var arguments = Array.prototype.slice.call(arguments);
   var decorator = arguments.shift();
@@ -22,4 +22,13 @@ Function.prototype.decorate = function ()
   decoratorWrapper.decorator = decorator;
   decoratorWrapper.decorated = decorated;
   return decoratorWrapper.bind(decorator, arguments);
+}
+
+Function.prototype.decorate = function ()
+{
+  var arguments = Array.prototype.slice.call(arguments);
+  var decorator = this;
+  var decorated = arguments.pop();
+  arguments.unshift(decorator);
+  return decorated.decorateWith.apply(decorated, arguments)
 }

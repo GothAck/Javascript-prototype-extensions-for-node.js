@@ -1,4 +1,4 @@
-Function.prototype.decorate = function ()
+Function.prototype.decorateWith = function ()
 {
   var arguments = Array.prototype.slice.call(arguments);
   var decorator = arguments.shift();
@@ -24,25 +24,59 @@ Function.prototype.decorate = function ()
   return decoratorWrapper.bind(decorator, arguments);
 }
 
-function one (oA1, oA2, oA3) {
-  // Do code
-  console.log('decorated function called with arguments:', arguments);
-  // Return value
-  return 'return value';
+Function.prototype.decorate = function ()
+{
+  var arguments = Array.prototype.slice.call(arguments);
+  var decorator = this;
+  var decorated = arguments.pop();
+  arguments.unshift(decorator);
+  return decorated.decorateWith.apply(decorated, arguments)
 }
 
-function two (dArgs, oA1, oA2) {
-  // this.decorated = decorated function
-  // Do code
-  console.log('decorator function called with arguments',arguments);
-  // Run bound function, pass arguments through as is or mangled (including decorator args (they get stripped))
+// 
+// function one (oA1, oA2, oA3) {
+  // // Do code
+  // console.log('decorated function called with arguments:', arguments);
+  // // Return value
+  // return 'return value';
+// }
+// 
+// function two (dArgs, oA1, oA2) {
+  // // this.decorated = decorated function
+  // // Do code
+  // console.log('decorator function called with arguments',arguments);
+  // oA1 = '1000';
+  // // Run bound function, pass arguments through as is or mangled (including decorator args (they get stripped))
+  // this.apply(this, arguments);
+  // // Do more code
+  // console.log('decorator function still running with returned value', this.ret);
+  // this.ret += ' modified';
+  // console.log('decorator function still running with modified value', this.ret);
+// }
+// 
+// var three = one.decorateWith(two, 'arguments', 'for', 'decorator', 'only');
+// 
+// var four = two.decorate('arguments', 'for', 'decorator', 'only', one);
+// 
+// console.log (three('arguments', 'passed', 'to', 'both'));
+// console.log ();
+// console.log (four('arguments', 'passed', 'to', 'both'))
+
+
+function my_decorator(dArgs, arg1)
+{
+  if (arg1 && dArgs[0])
+    arg1 = 'overridden argument';
   this.apply(this, arguments);
-  // Do more code
-  console.log('decorator function still running with returned value', this.ret);
-  this.ret += ' modified';
-  console.log('decorator function still running with modified value', this.ret);
+  if (this.ret == 'monday' && dArgs[0] == 'no monday')
+    this.ret = 'tuesday'
 }
 
-var three = one.decorate(two, 'arguments', 'for', 'decorator', 'only');
+var my_function = my_decorator.decorate('no monday',
+  function (arg1)
+  {
+    console.log (arg1);
+    return ('monday');
+  });
 
-console.log (three('arguments', 'passed', 'to', 'both'));
+console.log (my_function('argu'));
